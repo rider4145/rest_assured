@@ -1,0 +1,40 @@
+-> Pre-requistes to install
+	1. java +eclipse
+	2. testng
+	3. Maven
+
+-> Dependencies
+	1. rest_assured
+	2. json_path
+	3. json
+	4. gson,
+	5. testng
+	6. scribejava-apis
+	7. json schema-validator
+	
+	
+-> there are 3 gerkin keywords in the rest assured: given(), when(), then()
+	
+	1. given() -> pre-requsitives has to be defined in given() method
+				content type, set cookies, add auth, add param, set headers info etc..
+ 	2. when() -> request type has to be defined in when() method
+ 				get, post, put, delete
+ 	3. then() -> validation has to be defined in then() method
+ 				validate status code, extract response, extract header cookies and response body etc..
+-> Different many ways to create request body
+	1. Hashmap
+	2. using org.json library
+	3. using POJO(plain object java object) class -> we need to create a separate class
+	4. using external json file
+
+-> Using HashMap create request body
+	Syntax:
+	HashMap<String, String> map= new HashMap<String,String>();
+	map.put("name", "Rahul");										// body params are defined using hashmap
+	map.put("job", "Rider");
+	
+	given()							// given keyword
+		.body(map)					// send the hashmap data in the body
+		
+-> using org.json library create request body
+	
