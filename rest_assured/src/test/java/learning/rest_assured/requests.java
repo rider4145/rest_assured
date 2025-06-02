@@ -15,7 +15,7 @@ import java.util.HashMap;
  * then() -> validation has to be defined in then() method
  				validate status code, extract response, extract header cookies and response body etc..
 */
-public class http_requests {
+public class requests {
 
 	/* 
 	 	Get: https://reqres.in/api/users?page=2
@@ -31,6 +31,8 @@ public class http_requests {
 					}
 		Delete: https://reqres.in/api/users/2			 
 	*/
+	
+	int id;
 	@Test
 	public void getuser()
 	{
@@ -54,17 +56,59 @@ public class http_requests {
 		map.put("name", "Rahul");										// body params are defined using hashmap
 		map.put("job", "Rider");
 		
+		id=given()
+			.contentType("application/json")							// content.type has to be defined
+			.body(map)													// hashmap object is passed inside body values
+			.header("x-api-key", "reqres-free-v1")
+			
+		.when()
+			.post("https://reqres.in/api/users")			// pass the post request url
+			.jsonPath().getInt("id");
+		
+//		.then()
+//			.statusCode(201)
+//			.body("name",equalTo("Rahul"))
+//			.log().all();
+	}
+	
+	@Test(dependsOnMethods="createuser")
+	public void udpate_user()
+	{
+		
+		HashMap<String, String> map= new HashMap<String,String>();
+		map.put("name", "Rahul");										// body params are defined using hashmap
+		map.put("job", "Tester");
+		
 		given()
 			.contentType("application/json")							// content.type has to be defined
 			.body(map)													// hashmap object is passed inside body values
-			 
+			.header("x-api-key", "reqres-free-v1")
+			
 		.when()
-			.post("https://reqres.in/api/users")			// pass the post request url
+			.put("https://reqres.in/api/users/id")						// pass the put request url
+			
 			
 		.then()
-			.statusCode(201)
-//			.body("name",equalTo("Rahul"))
+			.statusCode(200)
+			.body("name",equalTo("Rahul"))
 			.log().all();
 	}
+
+	@Test(dependsOnMethods="createuser")
+	public void delete_user()
+	{
+				
+		given()
+			.contentType("application/json")							// content.type has to be defined
+			.header("x-api-key", "reqres-free-v1")
+			
+		.when()
+			.delete("https://reqres.in/api/users/id")						// pass the delete request url
+			
+		.then()
+			.statusCode(204)
+			.log().all();
+	}
+	
 	
 }
